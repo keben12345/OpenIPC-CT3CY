@@ -13,7 +13,7 @@ env:
 jobs:
   toolchain:
     name: Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Prepare
         run: |
