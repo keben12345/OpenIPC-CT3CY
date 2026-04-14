@@ -53,14 +53,17 @@ jobs:
           export GIT_BRANCH=${GITHUB_REF_NAME}
           echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
           echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
-          # 💥 关键：固定下载源
+          # 💥 清理坏缓存（关键！）
+          rm -rf /tmp/dl
+
           export BR2_DL_DIR="/tmp/dl"
-          export BR2_PRIMARY_SITE="https://mirrors.tuna.tsinghua.edu.cn/buildroot"
+          export BR2_PRIMARY_SITE="https://sources.buildroot.net"
           export BR2_BACKUP_SITE=""
 
           mkdir -p /tmp/dl
           mkdir -p /tmp/ccache
           ln -s /tmp/ccache ${HOME}/.ccache
+
           make BOARD=${{matrix.platform}}
           
           TIME=$(date -d @${SECONDS} +%M:%S)
