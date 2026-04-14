@@ -53,14 +53,19 @@ jobs:
           export GIT_BRANCH=${GITHUB_REF_NAME}
           echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
           echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
-          # 💥 关键修复
-          export BR2_PRIMARY_SITE="https://sources.buildroot.net"
-          export BR2_BACKUP_SITE=""
+          # 💥 下载修复（最终方案）
           export BR2_DL_DIR="/tmp/dl"
+
+          mkdir -p /tmp/dl
           mkdir -p /tmp/ccache
           ln -s /tmp/ccache ${HOME}/.ccache
-          make BOARD=${{matrix.platform}}
 
+          # 💥 先下载所有源码（关键！）
+          make BOARD=${{matrix.platform}} source
+
+          # 再编译
+          make BOARD=${{matrix.platform}}
+          
           TIME=$(date -d @${SECONDS} +%M:%S)
           echo TIME=${TIME} >> ${GITHUB_ENV}
 
