@@ -53,7 +53,7 @@ jobs:
           export GIT_BRANCH=${GITHUB_REF_NAME}
           echo GIT_HASH=${GIT_HASH} >> ${GITHUB_ENV}
           echo GIT_BRANCH=${GIT_BRANCH} >> ${GITHUB_ENV}
-
+          export BR2_PRIMARY_SITE="https://sources.buildroot.net"
           mkdir -p /tmp/ccache
           ln -s /tmp/ccache ${HOME}/.ccache
           make BOARD=${{matrix.platform}}
